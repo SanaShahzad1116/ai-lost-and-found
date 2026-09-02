@@ -68,4 +68,17 @@ const updateItemStatus = async (req, res) => {
   }
 };
 
-module.exports = { createItem, getItems, getItemById, updateItemStatus };
+
+const axios = require('axios');
+
+// Get AI-suggested matches for an item
+const getItemMatches = async (req, res) => {
+  try {
+    const response = await axios.get(`${process.env.AI_SERVICE_URL}/match/${req.params.id}`);
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch matches', error: error.message });
+  }
+};
+
+module.exports = { createItem, getItems, getItemById, updateItemStatus, getItemMatches };
