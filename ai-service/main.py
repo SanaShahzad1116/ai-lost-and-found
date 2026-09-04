@@ -10,7 +10,7 @@ load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")
-HF_MODEL_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
+HF_MODEL_URL = "https://router.huggingface.co/hf-inference/models/sentence-transformers/all-MiniLM-L6-v2"
 
 # MongoDB connect
 client = MongoClient(MONGO_URI)
