@@ -9,6 +9,8 @@ export const AuthProvider = ({ children }) => {
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
+  
+
   const login = async (email, password) => {
     const { data } = await API.post('/auth/login', { email, password });
     localStorage.setItem('token', data.token);
@@ -25,6 +27,12 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
+  const updateUser = (updatedFields) => {
+    const merged = { ...user, ...updatedFields };
+    localStorage.setItem('user', JSON.stringify(merged));
+    setUser(merged);
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -32,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

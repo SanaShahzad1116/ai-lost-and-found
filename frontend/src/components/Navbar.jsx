@@ -28,9 +28,13 @@ const Navbar = () => {
               <Link to="/post" className="text-slate-600 hover:text-indigo-600 font-medium transition text-sm sm:text-base">
                 Post Item
               </Link>
-              <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-semibold">
+              <Link to="/my-posts" className="text-slate-600 hover:text-indigo-600 font-medium transition text-sm sm:text-base">
+                My Posts
+              </Link>
+              <Link to="/profile" className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-semibold">
                 {user.name.charAt(0).toUpperCase()}
-              </div>
+              </Link>
+              
               <button
                 onClick={handleLogout}
                 className="px-3 py-2 sm:px-4 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition text-sm"
