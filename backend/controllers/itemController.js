@@ -1,5 +1,5 @@
 const axios = require('axios');
-const Notification = require('../models/Notification');
+const Notification = require('../models/Notifications');
 const Item = require('../models/Item');
 
 
@@ -101,7 +101,7 @@ const updateItemStatus = async (req, res) => {
 };
 
 
-const axios = require('axios');
+//const axios = require('axios');
 
 // Get AI-suggested matches for an item
 const getItemMatches = async (req, res) => {
