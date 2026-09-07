@@ -1,4 +1,7 @@
+const axios = require('axios');
+const Notification = require('../models/Notification');
 const Item = require('../models/Item');
+
 
 // Create new lost/found item
 const createItem = async (req, res) => {
@@ -15,9 +18,38 @@ const createItem = async (req, res) => {
       user: req.user.id,
     });
 
+    // AI se background mein check karo koi high-confidence match to nahi (response ko block nahi karta)
+    checkForAutoMatch(item).catch((err) => console.error('Auto-match check failed:', err.message));
+
     res.status(201).json(item);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+// Helper: naye item ke liye AI service se check karo, agar strong match mile to dono users ko notify karo
+const checkForAutoMatch = async (item) => {
+  const response = await axios.get(`${process.env.AI_SERVICE_URL}/match/${item._id}`);
+  const matches = response.data.matches || [];
+  const topMatch = matches[0];
+
+  const SIMILARITY_THRESHOLD = 0.75;
+
+  if (topMatch && topMatch.similarity >= SIMILARITY_THRESHOLD) {
+    const matchedItem = await Item.findById(topMatch.id);
+    if (!matchedItem) return;
+
+    await Notification.create({
+      user: item.user,
+      message: `We found a possible match for your "${item.title}" post: "${topMatch.title}"`,
+      item: matchedItem._id,
+    });
+
+    await Notification.create({
+      user: matchedItem.user,
+      message: `Someone posted a "${item.type}" item that might match your "${matchedItem.title}" post`,
+      item: item._id,
+    });
   }
 };
 

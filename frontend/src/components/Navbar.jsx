@@ -1,3 +1,4 @@
+import NotificationBell from './NotificationBell';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -25,6 +26,7 @@ const Navbar = () => {
 
           {user ? (
             <>
+              <NotificationBell />
               <Link to="/post" className="text-slate-600 hover:text-indigo-600 font-medium transition text-sm sm:text-base">
                 Post Item
               </Link>
